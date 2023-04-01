@@ -9,6 +9,7 @@ use App\Models\CompareList;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Region;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -84,7 +85,7 @@ class UserViewAjaxController extends Controller
 
     }
 
-    public function add_to_wish_list($product_id)
+    public function add_to_compare_list($product_id)
     {
         // check if user guest or auth
         if (auth()->user()) {
@@ -170,6 +171,52 @@ class UserViewAjaxController extends Controller
         }
     }
 
+    public function add_to_cart_from_modal( $product , $quantity )
+    {
+        // check if user guest or auth
+        if (auth()->user()) {
+            // auth
+        } else {
+            // guest
+            // check if this is guest before or not
+
+            $guest_value = \Request::ip();
+
+            if ($guest_value) {
+                // check if this product is exist
+                $exist = Cart::where([
+                    ["user_id" , $guest_value] ,
+                    ["product_id", $product]
+                ])->first();
+
+                if ($exist) {
+                    $exist->update([
+                        "quantity" => $quantity
+                    ]);
+                } else {
+                    $new_cart_item = Cart::create([
+                        "user_id" => $guest_value,
+                        "product_id" => $product ,
+                        "quantity" => $quantity
+                    ]);
+                }
+            } else {
+                $new_cart_item = Cart::create([
+                    "user_id" => $guest_value,
+                    "product_id" => $product ,
+                    "quantity" => $quantity
+                ]);
+            }
+
+            $all_cart = Cart::with("product")->where("user_id" , $guest_value)->latest()->get();
+
+            return $all_cart ;
+
+
+
+        }
+    }
+
     public function empty_cart_after_counter_down()
     {
         if( auth()->user() ){
@@ -189,5 +236,31 @@ class UserViewAjaxController extends Controller
         }
 
         return "done" ;
+    }
+
+    public function add_to_wishlist( $product_id )
+    {
+        if( auth()->user() ){
+            // auth
+        }else{
+            // guest
+            $exist = Wishlist::where([
+                [ "user_id" , \Request::ip() ] ,
+                [ "product_id" , $product_id ]
+            ])->first();
+
+            if( $exist ){
+                $exist->delete();
+                return "deleted" ;
+            }
+
+            $create = Wishlist::create([
+                "user_id" => \Request::ip() ,
+                "product_id" => $product_id
+            ]);
+
+            return "created" ;
+        }
+        
     }
 }

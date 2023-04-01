@@ -2,30 +2,21 @@
 
 @section('content')
     <!-- Home slider -->
-    <section class="p-0 small-slider">
-        @foreach ($main_sliders as $main_slider)
-            <div class="slider-animate home-slider">
-                <div>
-                    <div class="home">
-                        <img src="{{ asset($main_slider->main_image) }}" alt=""
-                            class="bg-img blur-up lazyload">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="slider-contain product-detail">
-                                        <div>
-                                            <h4 class="animated" data-animation-in="fadeInUp">
-                                                {{ $main_slider->intro_title }}</h4>
-                                            <h1 class="animated" data-animation-in="fadeInUp" data-delay-in="0.3">
-                                                {{ $main_slider->big_text }}</h1>
-                                            <p class="animated d-lg-block d-none" data-delay-in="0.4"
-                                                data-animation-in="fadeInUp" style="color: #fff">
-                                                {{ substr($main_slider->description, 0, 100) }}</p>
-                                            <a href="{{ $main_slider->link }}" target="_blank"
-                                                class="btn btn-solid animated rounded-3" data-animation-in="fadeInUp"
-                                                data-delay-in="0.5">shop
-                                                now</a>
-                                        </div>
+    <section class="p-0">
+        <div class="slide-1 home-slider">
+            @foreach ($main_sliders as $main_slider)
+            <div>
+                <div class="home text-start p-left">
+                    <img src="{{ $main_slider->main_image }}" class="bg-img blur-up lazyload">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <div class="slider-contain">
+                                    <div>
+                                        <h4>{{ $main_slider->intro_title }}</h4>
+                                        <h1>{{ $main_slider->big_text }}</h1>
+                                        <p>{{ $main_slider->description }}</p>
+                                        <a href="{{ $main_slider->link }}" class="btn btn-outline btn-classic">shop now</a>
                                     </div>
                                 </div>
                             </div>
@@ -33,7 +24,8 @@
                     </div>
                 </div>
             </div>
-        @endforeach
+            @endforeach
+        </div>
     </section>
     <!-- Home slider end -->
 
@@ -44,7 +36,7 @@
             <div class="vector-slide-8 no-arrow slick-default-margin ratio_square">
                 @foreach ($categories as $category)
                     <div class="">
-                        <a href="">
+                        <a>
                             <div class="category-boxes">
                                 <div class="img-sec">
                                     <img src="{{ $category->image_url }}" class="img-fluid" alt="">
@@ -115,7 +107,7 @@
                                                         class="img-fluid blur-up lazyload bg-img"></a>
                                             </div>
                                             <div class="cart-detail">
-                                                <a href="javascript:void(0)" title="Add to Wishlist">
+                                                <a href="javascript:void(0)" title="Add to Wishlist" onclick="add_to_wishlist({{ $product->id }})">
                                                     <i class="ti-heart" aria-hidden="true"></i></a> <a href="#"
                                                     data-bs-toggle="modal" data-bs-target="#quick-view"
                                                     onclick="setProductSlug({{ $product->id }})" title="Quick View"><i
@@ -133,7 +125,7 @@
                                                 <h6>{{ $sub_cat->title_en }}</h6>
                                             </a>
                                             <h4>{{ $product->real_price }} <span></span>
-                                                <del>{{ $product->fake_price }}</del>
+                                                <del>{{ $product->fake_price >= $product->real_price ? "" : $product->fake_price }}</del>
                                             </h4>
                                             <div class="addtocart_btn">
                                                 <button class="add-button add_cart" title="Add to cart" onclick="add_to_cart_list({{ $product->id }})">
@@ -141,10 +133,6 @@
                                                 </button>
                                                 <div class="qty-box cart_qty">
                                                     <div class="input-group">
-                                                        <button type="button" class="btn quantity-left-minus"
-                                                            data-type="minus" data-field="">
-                                                            <i class="fa fa-minus" aria-hidden="true"></i>
-                                                        </button>
                                                         <input type="text" name="quantity"
                                                             class="form-control input-number qty-input" value="1">
                                                         <button type="button" class="btn quantity-right-plus"
@@ -218,7 +206,7 @@
                                     </div>
                                 </div>
                                 <div class="product-buttons">
-                                    <a href="#" class="btn btn-solid">add to
+                                    <a class="btn btn-solid" onclick="add_to_cart_from_quick_view()">add to
                                         cart</a>
                                     <a href="#" class="btn btn-solid">view
                                         detail</a>
@@ -256,8 +244,7 @@
     </section>
     <!-- gift card section end -->
 
-    <input type="text" id="product_id_compare_list" hidden>
-    <input type="text" id="product_id_cart_list" hidden>
+    
 
     <!-- deal product start -->
 
@@ -296,7 +283,7 @@
                                     </a>
                                     <h6>{{ $lowest_price->category->title_en }}</h6>
                                     <h4>{{ $lowest_price->real_price }} <span></span>
-                                        <del>{{ $lowest_price->fake_price }}</del>
+                                        <del>{{ $lowest_price->fake_price >= $lowest_price->real_price ? "" : $lowest_price->fake_price }}</del>
                                     </h4>
                                     <div class="addtocart_btn">
                                         <button onclick="add_to_cart_list({{ $lowest_price->id }})" class="add-button add_cart" title="Add to cart">
@@ -304,10 +291,6 @@
                                         </button>
                                         <div class="qty-box cart_qty">
                                             <div class="input-group">
-                                                <button type="button" class="btn quantity-left-minus" data-type="minus"
-                                                    data-field="">
-                                                    <i class="fa fa-minus" aria-hidden="true"></i>
-                                                </button>
                                                 <input type="text" name="quantity"
                                                     class="form-control input-number qty-input" value="1">
                                                 <button type="button" class="btn quantity-right-plus" data-type="plus"
@@ -396,7 +379,7 @@
                                                 <h6>{{ $sub_cat->title_en }}</h6>
                                             </a>
                                             <h4>{{ $product->real_price }} <span></span>
-                                                <del>{{ $product->fake_price }}</del>
+                                                <del>{{ $product->fake_price >= $product->real_price ? "" : $product->fake_price }}</del>
                                             </h4>
                                             <div class="addtocart_btn">
                                                 <button onclick="add_to_cart_list({{ $product->id }})" class="add-button add_cart" title="Add to cart">
@@ -404,10 +387,6 @@
                                                 </button>
                                                 <div class="qty-box cart_qty">
                                                     <div class="input-group">
-                                                        <button type="button" class="btn quantity-left-minus"
-                                                            data-type="minus" data-field="">
-                                                            <i class="fa fa-minus" aria-hidden="true"></i>
-                                                        </button>
                                                         <input type="text" name="quantity"
                                                             class="form-control input-number qty-input" value="1">
                                                         <button type="button" class="btn quantity-right-plus"

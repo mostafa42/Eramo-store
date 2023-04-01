@@ -122,6 +122,7 @@ Route::prefix('acp')->name('admin.')->group(function () {
 
                     // main slider
                     Route::get('main-sliders', 'main_slider')->name('main_slider');
+                    Route::post('store-main-slider', 'store_main_slider')->name('store_main_slider');
                     Route::post('edit-main-slider/{id}/update', 'edit_main_slider')->name('edit_main_slider');
 
                     // first advs

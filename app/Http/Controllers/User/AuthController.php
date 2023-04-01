@@ -23,6 +23,7 @@ use App\Models\StoreInformationFooter;
 use App\Models\User;
 use App\Models\UserAddress;
 use App\Models\WhyWeChooseFooter;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -62,6 +63,17 @@ class AuthController extends Controller
 
         if( count($my_cart) > 0 ){
             foreach( $my_cart as $item ){
+                $item->update([
+                    "user_id" => auth()->user()->id
+                ]);
+            }
+        }
+
+        // check if he has wish list details
+        $wishlist = Wishlist::where("user_id" , $request->ip())->get();
+
+        if( count($wishlist) > 0 ){
+            foreach( $wishlist as $item ){
                 $item->update([
                     "user_id" => auth()->user()->id
                 ]);
@@ -109,6 +121,17 @@ class AuthController extends Controller
 
         if( count($my_cart) > 0 ){
             foreach( $my_cart as $item ){
+                $item->update([
+                    "user_id" => auth()->user()->id
+                ]);
+            }
+        }
+
+        // check if he has wish list details
+        $wishlist = Wishlist::where("user_id" , $request->ip())->get();
+
+        if( count($wishlist) > 0 ){
+            foreach( $wishlist as $item ){
                 $item->update([
                     "user_id" => auth()->user()->id
                 ]);

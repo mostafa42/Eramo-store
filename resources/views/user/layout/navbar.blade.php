@@ -9,6 +9,12 @@
     }
 </style>
 <!-- loader start -->
+<input type="text" id="product_id_compare_list" hidden>
+<input type="text" id="product_id_cart_list" hidden>
+<input type="text" id="product_id_wishlist" hidden>
+<input type="text" id="qunatity_of_product_in_quck_view_add_to_cart" hidden>
+<input type="text" id="product_id_in_quck_view_add_to_cart" hidden>
+
 <div class="loader_skeleton">
     <div class="top-panel-adv">
         <div class="container">
@@ -49,8 +55,10 @@
                     </div>
                     <div class="col-lg-6 text-end">
                         <ul class="header-dropdown">
-                            <li class="mobile-wishlist pe-0"><a href="#"><i class="fa fa-heart"
-                                        aria-hidden="true"></i></a>
+                            <li class="mobile-wishlist pe-0">
+                                <a href="#"><i class="fa fa-heart" aria-hidden="true"></i>
+
+                                </a>
                             </li>
                             <li class="onhover-dropdown mobile-account"><i class="fa fa-user" aria-hidden="true"></i>
                                 My Account
@@ -87,8 +95,8 @@
                                     <ul>
                                         <li class="onhover-div mobile-search d-xl-none d-sm-inline-block d-none">
                                             <div><img src="../assets/images/icon/search.png" onclick="openSearch()"
-                                                    class="img-fluid blur-up lazyload" alt=""><i
-                                                    class="ti-search" onclick="openSearch()"></i></div>
+                                                    class="img-fluid blur-up lazyload" alt=""><i class="ti-search"
+                                                    onclick="openSearch()"></i></div>
                                         </li>
                                         <li class="onhover-div mobile-setting d-sm-inline-block d-none">
                                             <div><img src="../assets/images/icon/setting.png"
@@ -272,39 +280,59 @@
                 </div>
                 <div class="col-lg-6 text-end">
                     <ul class="header-dropdown">
-                        <li class="mobile-wishlist pe-0"><a href="#"><i class="fa fa-heart"
-                                    aria-hidden="true"></i></a>
-                        </li>
                         @if (auth()->user())
-                            <li class="mobile-wishlist pe-0">
-                                <a href="{{ url('compare') }}">
-                                    <i class="ti-reload" aria-hidden="true"></i>
-                                    <span class=""
-                                        style="background-color: red; border-radius: 10%; padding: 5px; font-weight: bold"
-                                        id="compare_list_count">
-                                        {{ App\Models\CompareList::where('user_id', auth()->user()->id)->count() }}
-                                    </span>
-                                @else
-                            <li class="mobile-wishlist pe-0">
-                                <a href="{{ url('compare') }}">
-                                    <i class="ti-reload" aria-hidden="true"></i>
-                                    <span class=""
-                                        style="background-color: red; border-radius: 10%; padding: 5px; font-weight: bold"
-                                        id="compare_list_count">
-                                        {{ App\Models\CompareList::where('user_id', \Request::ip())->count() }}
-                                    </span>
-                                </a>
+                        <li class="mobile-wishlist pe-0">
+                            <a href="#">
+                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                <span class=""
+                                    style="background-color: red; border-radius: 10%; padding: 5px; font-weight: bold"
+                                    id="wishlist_count">
+                                    {{ App\Models\Wishlist::where('user_id', auth()->user()->id)->count() }}
+                                </span>
+                            </a>
+                        </li>
+                        @else
+                        <li class="mobile-wishlist pe-0">
+                            <a href="#">
+                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                <span class=""
+                                    style="background-color: red; border-radius: 10%; padding: 5px; font-weight: bold"
+                                    id="wishlist_count">
+                                    {{ App\Models\Wishlist::where('user_id', \Request::ip())->count() }}
+                                </span>
+                            </a>
+                        </li>
                         @endif
+                        @if (auth()->user())
+                        <li class="mobile-wishlist pe-0">
+                            <a href="{{ url('compare') }}">
+                                <i class="ti-reload" aria-hidden="true"></i>
+                                <span class=""
+                                    style="background-color: red; border-radius: 10%; padding: 5px; font-weight: bold"
+                                    id="compare_list_count">
+                                    {{ App\Models\CompareList::where('user_id', auth()->user()->id)->count() }}
+                                </span>
+                                @else
+                        <li class="mobile-wishlist pe-0">
+                            <a href="{{ url('compare') }}">
+                                <i class="ti-reload" aria-hidden="true"></i>
+                                <span class=""
+                                    style="background-color: red; border-radius: 10%; padding: 5px; font-weight: bold"
+                                    id="compare_list_count">
+                                    {{ App\Models\CompareList::where('user_id', \Request::ip())->count() }}
+                                </span>
+                            </a>
+                            @endif
                         </li>
                         <li class="onhover-dropdown mobile-account"><i class="fa fa-user" aria-hidden="true"></i>
                             My Account
                             <ul class="onhover-show-div">
                                 @if (auth()->user())
-                                    <li><a href="{{ url('/profile') }}">Profile</a></li>
-                                    <li><a href="{{ url('logout') }}">Logout</a></li>
+                                <li><a href="{{ url('/profile') }}">Profile</a></li>
+                                <li><a href="{{ url('logout') }}">Logout</a></li>
                                 @else
-                                    <li><a href="{{ url('/login') }}">Login</a></li>
-                                    <li><a href="{{ url('sign-up') }}">Register</a></li>
+                                <li><a href="{{ url('/login') }}">Login</a></li>
+                                <li><a href="{{ url('sign-up') }}">Register</a></li>
                                 @endif
 
                             </ul>
@@ -320,8 +348,7 @@
                 <div class="main-menu">
                     <div class="menu-left">
                         <div class="brand-logo">
-                            <a href="{{ url('/') }}"><img
-                                    src="{{ asset('' . App\Models\Navbar::first()->logo . '') }}"
+                            <a href="{{ url('/') }}"><img src="{{ asset('' . App\Models\Navbar::first()->logo . '') }}"
                                     class="img-fluid blur-up lazyload" alt=""></a>
                         </div>
                     </div>
@@ -342,8 +369,8 @@
                                 <ul>
                                     <li class="onhover-div mobile-search d-xl-none d-inline-block">
                                         <div><img src="../assets/images/icon/search.png" onclick="openSearch()"
-                                                class="img-fluid blur-up lazyload" alt=""><i
-                                                class="ti-search" onclick="openSearch()"></i></div>
+                                                class="img-fluid blur-up lazyload" alt=""><i class="ti-search"
+                                                onclick="openSearch()"></i></div>
                                         <div id="search-overlay" class="search-overlay">
                                             <div><span class="closebtn" onclick="closeSearch()"
                                                     title="Close Overlay">×</span>
@@ -369,21 +396,21 @@
                                     </li>
                                     <li class="onhover-div mobile-setting">
                                         <div><img src="../assets/images/icon/setting.png"
-                                                class="img-fluid blur-up lazyload" alt=""><i
-                                                class="ti-settings"></i></div>
+                                                class="img-fluid blur-up lazyload" alt=""><i class="ti-settings"></i>
+                                        </div>
                                         <div class="show-div setting">
                                             <h6>language</h6>
                                             <ul>
                                                 <li><a href="#">english</a></li>
-                                                <li><a href="#">french</a></li>
+                                                <li><a href="#">arabic</a></li>
                                             </ul>
-                                            <h6>currency</h6>
+                                            {{-- <h6>currency</h6>
                                             <ul class="list-inline">
                                                 <li><a href="#">euro</a></li>
                                                 <li><a href="#">rupees</a></li>
                                                 <li><a href="#">pound</a></li>
                                                 <li><a href="#">doller</a></li>
-                                            </ul>
+                                            </ul> --}}
                                         </div>
                                     </li>
                                     <li class="onhover-div mobile-cart">
@@ -391,68 +418,72 @@
                                                 class="img-fluid blur-up lazyload" alt=""><i
                                                 class="ti-shopping-cart"></i>
                                             @if (auth()->user())
-                                                <span id="cart_list_count"
-                                                    style="background-color: red; color:#fff ; padding: 5px 10px; border-radius: 10px">{{ App\Models\Cart::where('user_id', auth()->user()->id)->count() }}</span>
+                                            <span id="cart_list_count"
+                                                style="background-color: red; color:#fff ; padding: 5px 10px; border-radius: 10px">{{
+                                                App\Models\Cart::where('user_id', auth()->user()->id)->count() }}</span>
                                             @else
-                                                <span id="cart_list_count"
-                                                    style="background-color: red; color:#fff ; padding: 5px 10px; border-radius: 10px">{{ App\Models\Cart::where('user_id', \Request::ip())->count() }}</span>
+                                            <span id="cart_list_count"
+                                                style="background-color: red; color:#fff ; padding: 5px 10px; border-radius: 10px">{{
+                                                App\Models\Cart::where('user_id', \Request::ip())->count() }}</span>
                                             @endif
 
                                         </div>
                                         <ul class="show-div shopping-cart">
                                             <div id="my_cart_pop_up">
                                                 @if (auth()->user())
-                                                    <?php $x = 0; ?>
-                                                    @if (App\Models\Cart::where('user_id', auth()->user()->id)->latest()->count() > 0)
-                                                        @foreach (App\Models\Cart::where('user_id' , auth()->user()->id )->latest()->get() as $item)
-                                                            <li>
-                                                                <div class="media">
+                                                <?php $x = 0; ?>
+                                                @if (App\Models\Cart::where('user_id',
+                                                auth()->user()->id)->latest()->count() > 0)
+                                                @foreach (App\Models\Cart::where('user_id' , auth()->user()->id
+                                                )->latest()->get() as $item)
+                                                <li>
+                                                    <div class="media">
 
-                                                                    <a href="#"><img alt=""
-                                                                            class="me-3"
-                                                                            src="{{ $item->product->primary_image_url }}"
-                                                                            width="50px"></a>
-                                                                    <div class="media-body">
-                                                                        <a href="#">
-                                                                            <h4>{{ $item->product->title_en }}</h4>
-                                                                        </a>
-                                                                        <h4><span>{{ $item->quantity }} x
-                                                                                {{ $item->product->real_price }}</span>
-                                                                        </h4>
-                                                                    </div>
-                                                                </div>
-                                                                <?php $x += $item->quantity * $item->product->real_price; ?>
-                                                            </li>
-                                                        @endforeach
-                                                    @else
-                                                        <h4 style="text-align: center">Cart is Empty</h4>
-                                                    @endif
+                                                        <a href="#"><img alt="" class="me-3"
+                                                                src="{{ $item->product->primary_image_url }}"
+                                                                width="50px"></a>
+                                                        <div class="media-body">
+                                                            <a href="#">
+                                                                <h4>{{ $item->product->title_en }}</h4>
+                                                            </a>
+                                                            <h4><span>{{ $item->quantity }} x
+                                                                    {{ $item->product->real_price }}</span>
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                    <?php $x += $item->quantity * $item->product->real_price; ?>
+                                                </li>
+                                                @endforeach
                                                 @else
-                                                    <?php $x = 0; ?>
-                                                    @if (App\Models\Cart::where('user_id', \Request::ip())->latest()->count() > 0)
-                                                        @foreach (App\Models\Cart::where('user_id', \Request::ip())->latest()->get() as $item)
-                                                            <li>
-                                                                <div class="media">
+                                                <h4 style="text-align: center">Cart is Empty</h4>
+                                                @endif
+                                                @else
+                                                <?php $x = 0; ?>
+                                                @if (App\Models\Cart::where('user_id',
+                                                \Request::ip())->latest()->count() > 0)
+                                                @foreach (App\Models\Cart::where('user_id',
+                                                \Request::ip())->latest()->get() as $item)
+                                                <li>
+                                                    <div class="media">
 
-                                                                    <a href="#"><img alt=""
-                                                                            class="me-3"
-                                                                            src="{{ $item->product->primary_image_url }}"
-                                                                            width="50px"></a>
-                                                                    <div class="media-body">
-                                                                        <a href="#">
-                                                                            <h4>{{ $item->product->title_en }}</h4>
-                                                                        </a>
-                                                                        <h4><span>{{ $item->quantity }} x
-                                                                                {{ $item->product->real_price }}</span>
-                                                                        </h4>
-                                                                    </div>
-                                                                </div>
-                                                                <?php $x += $item->quantity * $item->product->real_price; ?>
-                                                            </li>
-                                                        @endforeach
-                                                    @else
-                                                        <h4 style="text-align: center">Cart is Empty</h4>
-                                                    @endif
+                                                        <a href="#"><img alt="" class="me-3"
+                                                                src="{{ $item->product->primary_image_url }}"
+                                                                width="50px"></a>
+                                                        <div class="media-body">
+                                                            <a href="#">
+                                                                <h4>{{ $item->product->title_en }}</h4>
+                                                            </a>
+                                                            <h4><span>{{ $item->quantity }} x
+                                                                    {{ $item->product->real_price }}</span>
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                    <?php $x += $item->quantity * $item->product->real_price; ?>
+                                                </li>
+                                                @endforeach
+                                                @else
+                                                <h4 style="text-align: center">Cart is Empty</h4>
+                                                @endif
                                                 @endif
                                             </div>
 
@@ -483,8 +514,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 menu-row">
-                    <div data-bs-toggle="modal" data-bs-target="#deliveryarea"
-                        class="delivery-area d-md-flex d-none">
+                    <div data-bs-toggle="modal" data-bs-target="#deliveryarea" class="delivery-area d-md-flex d-none">
                         <i data-feather="map-pin"></i>
                         <div>
                             <h6>Delivery to</h6>
@@ -509,29 +539,28 @@
                                     </ul>
                                 </li> --}}
                                 <li>
-                                    <a href="#">Categories</a>
+                                    <a style="cursor: pointer">Categories</a>
                                     <ul style="width: 1000px !important ;">
                                         @foreach (App\Models\ProductCategory::get() as $category)
-                                            @if ($category->sub_catagories->count() > 0)
-                                                <li>
-                                                    <a href="#">{{ $category->title_en }}</a>
-                                                    <ul>
-                                                        @foreach ($category->sub_catagories as $sub)
-                                                            <li><a href="product-page.html">{{ $sub->title_en }}</a>
-                                                            </li>
+                                        @if ($category->sub_catagories->count() > 0)
+                                        <li>
+                                            <a style="cursor: pointer">{{ $category->title_en }}</a>
+                                            <ul>
+                                                @foreach ($category->sub_catagories as $sub)
+                                                <li><a href="{{ url('sub-category/' . $sub->slug_en ) }}">{{ $sub->title_en }}</a>
                                                 </li>
-                                            @endforeach
+                                        </li>
+                                        @endforeach
                                     </ul>
                                 </li>
-                            @else
-                                <li><a>{{ $category->title_en }}</a></li>
+                                @else
                                 @endif
                                 @endforeach
                             </ul>
                             </li>
-                            <li><a href="#">About Store</a></li>
+                            <li><a href="{{ url('about-us') }}">About Store</a></li>
                             <li><a href="#">Questions and Requests</a></li>
-                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="{{ url('contact-us') }}">Contact Us</a></li>
                             </ul>
                         </nav>
                     </div>

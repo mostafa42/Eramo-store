@@ -12,6 +12,7 @@ class MainSlider extends Model
         "main_image" ,
         "intro_title" ,
         "big_text" ,
+        "description",
         "link"
     ] ;
 }

@@ -33,7 +33,8 @@ class HomeController extends Controller
         $lowest_price = Product::orderBy('real_price', 'asc')->limit(6)->get();
 
         // main slider
-        $main_sliders = MainSlider::latest()->get();
+        $main_sliders = MainSlider::get();
+        // return $main_sliders ;
 
         // first advs
         $first_advs = FirstAdv::latest()->get();

@@ -54,6 +54,7 @@ function setProductSlug($id) {
         url: $complete_url,
         success: function (data) {
             console.log(data);
+            $("#product_id_in_quck_view_add_to_cart").val( data.id );
             $("#qv_img").attr("src", data.primary_image_url);
             $("#qv_main_title").text(data.title_en);
             $("#qv_price").text(data.real_price + " EGP");
@@ -69,6 +70,7 @@ function setProductSlug($id) {
 $("#quick_view_modal_qunatity").keypress(function (evt) {
     evt.preventDefault();
 });
+
 
 // adding to compare list function
 function add_to_compare_list($product_id) {
@@ -155,6 +157,83 @@ function add_to_cart_list($product_id) {
     });
 }
 
+function add_to_wishlist( product_id ){
+    $("#product_id_wishlist").val(product_id);
+    product_item = $("#product_id_wishlist").val();
+    $complete_url = "/api/add-to-wishlist/" + product_item;
+    $.ajax({
+        type: "GET",
+        url: $complete_url,
+        success: function (data) {
+            console.log(data);
+           if( data == "created" ){
+            $("#wishlist_count").html(
+                parseInt($("#wishlist_count").text()) + 1
+            );
+           }else if( data == "deleted" ){
+            $("#wishlist_count").html(
+                parseInt($("#wishlist_count").text()) - 1
+            );
+           }
+        },
+        error: function (data) {
+            console.log("error");
+        },
+    });
+}
+
+$("#quick_view_modal_qunatity").change(function () {
+    $("#qunatity_of_product_in_quck_view_add_to_cart").val( $(this).val() );
+});
+
+function add_to_cart_from_quick_view( product_id ){
+    product_item = $("#product_id_in_quck_view_add_to_cart").val() ;
+    quantity = $("#quick_view_modal_qunatity").val() ;
+
+    $complete_url = "/api/add-to-cart-list-from-modal/" + product_item + "/" + quantity;
+    console.log( )
+    $.ajax({
+        type: "GET",
+        url: $complete_url,
+        success: function (data) {
+            $("#cart_list_count").html(
+                data.length
+            );
+            $("#my_cart_pop_up").empty() ;
+
+            sub_total = 0 ;
+
+            for( x = 0 ; x < data.length ; x++  ){
+                $("#my_cart_pop_up").append(`
+                    <li>
+                        <div class="media">
+
+                            <a href="#"><img alt="" class="me-3"
+                                    src="${data[x].product.primary_image_url}"
+                                    width="50px"></a>
+                            <div class="media-body">
+                                <a href="#">
+                                    <h4>${data[x].product.title_en}</h4>
+                                </a>
+                                <h4><span>${data[x].quantity} x
+                                ${data[x].product.real_price}</span>
+                                </h4>
+                            </div>
+                        </div>
+                    </li>
+                `);
+                sub_total += data[x].product.real_price * data[x].quantity ;
+            }
+            $(".sub_total_model").html(
+                sub_total
+            );
+
+        },
+        error: function (data) {
+            console.log("error");
+        },
+    });
+}
 
 // changing quantity in cart
 $(".main_tbody") > $(".qty_input").on("input", function (e) {
@@ -184,15 +263,14 @@ $("#filter_btn").on("click", function () {
         "/" +
         end_price +
         "/" +
-        term +
-        "/" +
-        check_brands;
+        term ;
 
     $.ajax({
         type: "GET",
         url: complete_url,
         data: { brands: check_brands },
         success: function (data) {
+            console.log(data)
             $("#product_filter_content").empty();
             if (data.length == 0) {
                 $("#product_filter_content").append(

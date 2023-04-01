@@ -68,6 +68,8 @@ Route::get('get-city/{country_id}' , [UserViewAjaxController::class , "get_city"
 Route::get('get-region/{city_id}' , [UserViewAjaxController::class , "get_region"]);
 Route::get('get-specific-product/{id}' , [UserViewAjaxController::class , "get_product"]);
 Route::get('filter-by-price/{start_price}/{end_price}/{term}' , [UserViewAjaxController::class , "filter_by_price"]);
-Route::get('add-to-compare-list/{product_id}' , [UserViewAjaxController::class , "add_to_wish_list"]);
+Route::get('add-to-compare-list/{product_id}' , [UserViewAjaxController::class , "add_to_compare_list"]);
 Route::get('add-to-cart-list/{product_id}' , [UserViewAjaxController::class , "add_to_cart"]);
+Route::get('add-to-cart-list-from-modal/{product_id}/{quantity}' , [UserViewAjaxController::class , "add_to_cart_from_modal"]);
+Route::get('add-to-wishlist/{product_id}' , [UserViewAjaxController::class , "add_to_wishlist"]);
 Route::get('empty-cart-after-counter-down' , [UserViewAjaxController::class , "empty_cart_after_counter_down"]);

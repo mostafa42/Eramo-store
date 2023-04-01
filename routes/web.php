@@ -30,11 +30,18 @@ Route::get('language/{locale}', function ($locale) {
 });
 
 Route::get('search', [MainFunctionalityController::class, 'search']);
+
 Route::get('compare', [MainFunctionalityController::class, 'compare']);
 Route::get('delete-item-compare/{id}', [MainFunctionalityController::class, 'delete_item_compare']);
 
 Route::get('cart', [MainFunctionalityController::class, 'cart']);
 Route::get('delete-item-cart/{id}', [MainFunctionalityController::class, 'delete_item_cart']);
+
+Route::get('about-us' , [MainFunctionalityController::class , 'about_us']);
+
+Route::get('sub-category/{slug}' , [MainFunctionalityController::class , 'getting_sub_category']);
+
+Route::get('contact-us' , [MainFunctionalityController::class , 'contact_us']);
 
 Route::get('checkout-step1' , [CheckoutController::class , 'index']);
 

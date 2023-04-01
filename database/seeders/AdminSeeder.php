@@ -17,6 +17,7 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
+        Admin::truncate() ;
         $data =[
             'name'=>'Super Admin',
             'email'=>'super_admin@gmail.com',

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\AboutUs;
 use App\Models\Cart;
 use App\Models\CompareList;
+use App\Models\ContactUs;
 use App\Models\MainSectionFooter;
 use App\Models\MyAccountSectionFooter;
 use App\Models\Product;
@@ -14,6 +16,7 @@ use App\Models\ProductUnderAdv;
 use App\Models\StoreInformationFooter;
 use App\Models\WhyWeChooseFooter;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 class MainFunctionalityController extends Controller
 {
@@ -125,5 +128,71 @@ class MainFunctionalityController extends Controller
         }else{
             return view('user.auth_user.not_found');
         }
+    }
+
+    public function about_us()
+    {
+        // main section footer
+        $main_section_footer = MainSectionFooter::get();
+
+        // my account section footer
+        $my_account_section = MyAccountSectionFooter::get();
+
+        // why we choose
+        $why_we_choose = WhyWeChooseFooter::get() ;
+
+        // store information
+        $store_info = StoreInformationFooter::get();
+
+        // about us 
+        $about_us = AboutUs::first() ;
+
+        return view('user.layout.about_store' , compact('about_us' , 'main_section_footer' , 'my_account_section' , 'why_we_choose' , 'store_info'));
+    }
+
+    public function getting_sub_category( $slug )
+    {
+        // main section footer
+        $main_section_footer = MainSectionFooter::get();
+
+        // my account section footer
+        $my_account_section = MyAccountSectionFooter::get();
+
+        // why we choose
+        $why_we_choose = WhyWeChooseFooter::get() ;
+
+        // store information
+        $store_info = StoreInformationFooter::get();
+
+        // this sub category
+        $sub_category = ProductCategory::sub()->with([ "products" => function($products){
+            $products->latest();
+        }])->where("slug_en" , $slug)->orWhere("slug_ar" , $slug)->first() ;
+        
+        if( ! $sub_category ){
+            return view('user.auth_user.not_found') ;
+        }
+
+        return view('user.layout.sub_category' , compact('sub_category' , 'main_section_footer' , 'my_account_section' , 'why_we_choose' , 'store_info'));
+    }
+
+    public function contact_us()
+    {
+        // main section footer
+        $main_section_footer = MainSectionFooter::get();
+
+        // my account section footer
+        $my_account_section = MyAccountSectionFooter::get();
+
+        // why we choose
+        $why_we_choose = WhyWeChooseFooter::get() ;
+
+        // store information
+        $store_info = StoreInformationFooter::get();
+
+        // contact us
+        $contact_us = ContactUs::first() ;
+
+        return view('user.layout.contact_us' , compact('contact_us' , 'main_section_footer' , 'my_account_section' , 'why_we_choose' , 'store_info'));
     }
 }
