@@ -55,7 +55,27 @@ Route::middleware([CheckLogin::class])->group(function () {
     Route::get('profile', [AuthController::class, "profile"]);
     Route::post('update-profile', [AuthController::class, "update_profile"]);
     Route::post('update-shipping-address', [AuthController::class, "update_shipping_address"]);
+    Route::post('/add/to/wishlist/{id}', [AuthController::class, 'addToWishList'])->name('wishlists.store');
 
+    Route::get('/wishlist', [AuthController::class, 'getUserWishlist'])->name('wishlists');
+    
+    Route::post('/ratings/store', [AuthController::class, 'storeRatings'])->name('ratings.store');
+    
+    Route::get('/wishlist/delete/{id}', [AuthController::class, "deleteWishlist"])->name('wishlists.destroy');
+    
+    Route::post('/comment/store', [HomeController::class, 'storeComment'])->name('comment.blog');
 
     Route::get('/logout', [AuthController::class, "logout"]);
 });
+
+
+Route::get('/product/{slug}', [AuthController::class, "productDetails"])->name('product.details');
+
+
+Route::get('/blogs', [HomeController::class, "blogs"])->name('blogs');
+Route::get('/blogs/{id}', [HomeController::class, "blogDeatils"])->name('blog.details');
+
+Route::get('/verification', [AuthController::class, "verification"])->name('verification');
+
+
+Route::get('/invoice', [AuthController::class, "invoice"])->name('invoice');

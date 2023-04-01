@@ -110,13 +110,21 @@
                                     <div class="product-box product-style-4">
                                         <div class="img-wrapper">
                                             <div class="front">
-                                                <a href="product-page.html"><img alt=""
+                                                <a href="{{ route('product.details', $product->slug_en) }}"><img alt=""
                                                         src="{{ $product->primary_image_url }}"
                                                         class="img-fluid blur-up lazyload bg-img"></a>
                                             </div>
                                             <div class="cart-detail">
-                                                <a href="javascript:void(0)" title="Add to Wishlist">
-                                                    <i class="ti-heart" aria-hidden="true"></i></a> <a href="#"
+                                                <a href="javascript:void(0)" id="add_to_wish_list" onclick="hello({{$product->id}})" title="Add to Wishlist">
+                                                                           @if(auth()->user())
+                                                @if(App\Models\Wishlist::where('user_id',auth()->user()->id)->where('product_id',$product->id)->first()!=null)
+                                                <i class="ti-heart" aria-hidden="true" style="background-color: red" ></i>
+                                                @else
+                                                <i class="ti-heart" aria-hidden="true"></i>
+                                                @endif
+                                                @else
+                                                <i class="ti-heart" aria-hidden="true"></i>
+                                                @endif                         <a href="javascript:void(0)" id="add_to_wish_list" onclick="hello({{$product->id}})" title="Add to Wishlist"></a> <a href="#"
                                                     data-bs-toggle="modal" data-bs-target="#quick-view"
                                                     onclick="setProductSlug({{ $product->id }})" title="Quick View"><i
                                                         class="ti-search" aria-hidden="true"></i></a> <a
@@ -126,7 +134,7 @@
                                             </div>
                                         </div>
                                         <div class="product-info">
-                                            <a href="product-page.html">
+                                            <a href="{{ route('product.details', $product->slug_en) }}">
                                                 <h6>{{ $product->title_en }}</h6>
                                             </a>
                                             <a style="color:#000 !important">
@@ -276,13 +284,21 @@
                             <div class="product-box product-style-4">
                                 <div class="img-wrapper">
                                     <div class="front">
-                                        <a href="product-page.html"><img alt=""
+                                        <a href="{{ route('product.details', $lowest_price->slug_en) }}"><img alt=""
                                                 src="{{ $lowest_price->primary_image_url }}"
                                                 class="img-fluid blur-up lazyload bg-img"></a>
                                     </div>
-                                    <div class="cart-detail"><a href="javascript:void(0)" title="Add to Wishlist">
+                                    <div class="cart-detail">                                                <a href="javascript:void(0)" id="add_to_wish_list" onclick="hello({{$product->id}})" title="Add to Wishlist">
 
-                                            <i class="ti-heart" aria-hidden="true"></i></a> <a href="#"
+                                                                   @if(auth()->user())
+                                                @if(App\Models\Wishlist::where('user_id',auth()->user()->id)->where('product_id',$product->id)->first()!=null)
+                                                <i class="ti-heart" aria-hidden="true" style="background-color: red" ></i>
+                                                @else
+                                                <i class="ti-heart" aria-hidden="true"></i>
+                                                @endif
+                                                @else
+                                                <i class="ti-heart" aria-hidden="true"></i>
+                                                @endif                         <a href="javascript:void(0)" id="add_to_wish_list" onclick="hello({{$product->id}})" title="Add to Wishlist"></a> <a href="#"
                                             data-bs-toggle="modal" data-bs-target="#quick-view"
                                             onclick="setProductSlug({{ $lowest_price->id }})" title="Quick View"><i
                                                 class="ti-search" aria-hidden="true"></i></a> <a
@@ -291,7 +307,7 @@
                                                 aria-hidden="true"></i></a></div>
                                 </div>
                                 <div class="product-info">
-                                    <a href="product-page.html">
+                                    <a href="{{ route('product.details', $product->slug_en) }}">
                                         <h6>{{ $lowest_price->title_en }}</h6>
                                     </a>
                                     <h6>{{ $lowest_price->category->title_en }}</h6>
@@ -373,14 +389,22 @@
                                     <div class="product-box product-style-4">
                                         <div class="img-wrapper">
                                             <div class="front">
-                                                <a href="product-page.html"><img alt=""
+                                                <a href="{{ route('product.details', $product->slug_en) }}"><img alt=""
                                                         src="{{ $product->primary_image_url }}"
                                                         class="img-fluid blur-up lazyload bg-img"></a>
                                             </div>
-                                            <div class="cart-detail"><a href="javascript:void(0)"
-                                                    title="Add to Wishlist">
+                                            <div class="cart-detail">
+                                                                                                <a href="javascript:void(0)" id="add_to_wish_list" onclick="hello({{$product->id}})" title="Add to Wishlist">
 
-                                                    <i class="ti-heart" aria-hidden="true"></i></a> <a href="#"
+                                                                           @if(auth()->user())
+                                                @if(App\Models\Wishlist::where('user_id',auth()->user()->id)->where('product_id',$product->id)->first()!=null)
+                                                <i class="ti-heart" aria-hidden="true" style="background-color: red" ></i>
+                                                @else
+                                                <i class="ti-heart" aria-hidden="true"></i>
+                                                @endif
+                                                @else
+                                                <i class="ti-heart" aria-hidden="true"></i>
+                                                @endif                         <a href="javascript:void(0)" id="add_to_wish_list" onclick="hello({{$product->id}})" title="Add to Wishlist"></a> <a href="#"
                                                     data-bs-toggle="modal" data-bs-target="#quick-view"
                                                     onclick="setProductSlug({{ $product->id }})" title="Quick View"><i
                                                         class="ti-search" aria-hidden="true"></i></a> <a
@@ -389,7 +413,7 @@
                                                         aria-hidden="true"></i></a></div>
                                         </div>
                                         <div class="product-info">
-                                            <a href="product-page.html">
+                                            <a href="{{ route('product.details', $product->slug_en) }}">
                                                 <h6>{{ $product->title_en }}</h6>
                                             </a>
                                             <a style="color:#000 !important">
@@ -786,7 +810,7 @@
                             <div class="product-box product-style-4">
                                 <div class="img-wrapper">
                                     <div class="front">
-                                        <a href="product-page.html"><img alt="" src="{{ $admin->image_url }}"
+                                        <a href="{{ route('product.details', $product->slug_en) }}"><img alt="" src="{{ $admin->image_url }}"
                                                 class="img-fluid blur-up lazyload bg-img"></a>
                                     </div>
                                 </div>
@@ -969,17 +993,18 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="name">Select your city to start shopping</label>
-                            <select class="form-select" aria-label="Default select example">
+                            <select class="form-select" name="city_id" aria-label="Default select example">
                                 <option selected>Select City</option>
-                                <option value="1">New York</option>
-                                <option value="2">Tokyo</option>
-                                <option value="3">London</option>
+                                @foreach($cities as $city)
+                                <option value="{{$city->id}}">{{$city->title_en}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-12">
-                            <label for="name">Enter your area / pincode</label>
-                            <input type="text" class="form-control" id="name" placeholder="Enter Pincode"
-                                required="">
+                            <button type="submit" class="btn btn-primary d-block m-auto">
+                                Search
+                               
+                            </button>
                         </div>
                     </div>
                 </div>

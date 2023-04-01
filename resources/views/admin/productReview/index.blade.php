@@ -26,9 +26,9 @@
             @php
                 $pageAction = 'All';
 
-                if (request('approved') == 1) {
+                if (request('status') == 1) {
                     $pageAction = 'Approved';
-                } elseif (request('approved') == '0') {
+                } elseif (request('status') == '0') {
                     $pageAction = 'Not Approved';
                 }
             @endphp
@@ -113,12 +113,12 @@
                                     <div class="form-group mb-3">
                                         <label for="approved">Is Approved Or Not Approved</label>
 
-                                        <select class="form-control" aria-label="Default" name="approved">
+                                        <select class="form-control" aria-label="Default" name="status">
                                             <option selected value="">All</option>
-                                            <option value="1" @if (isset(request()->approved) && request()->approved == 1) selected @endif>
+                                            <option value="1" @if (isset(request()->status) && request()->status == 1) selected @endif>
                                                 Approved
                                             </option>
-                                            <option value="0" @if (isset(request()->approved) && request()->approved == 0) selected @endif>
+                                            <option value="0" @if (isset(request()->status) && request()->status == 0) selected @endif>
                                                 Not Approved</option>
                                         </select>
                                     </div>
@@ -186,8 +186,10 @@
             <thead>
                 <tr>
                     <th class="border-gray-200">ID</th>
-                    <th class="border-gray-200">Title</th>
-                    <th class="border-gray-200">Rating</th>
+                    <th class="border-gray-200">User Name</th>
+                    <th class="border-gray-200">Product</th>
+                    <th class="border-gray-200">Subject</th>
+                    <th class="border-gray-200">Testimonal</th>
                     <th class="border-gray-200">Approved</th>
                     <th class="border-gray-200">Created At</th>
 
@@ -206,28 +208,35 @@
                             <p class="text-nowrap">{{ $review->id }}.</p>
                         </td>
 
+                        <td>
+                            <p class="text-nowrap">{{ $review->name }}.</p>
+                        </td>
 
+                        <td>
+                            <p class="text-nowrap">{{ $review->product->title_en }}.</p>
+                        </td>
+
+                        <td>
+                            <p class="text-nowrap">{{ $review->subject }}.</p>
+                        </td>
+
+                        
 
                         <td>
 
                             <div class="m-auto" style="width:150px">
-                                <p class="" dir="rtl">{{ Str::limit($review->title, 60) }}</p>
+                                <p class="" dir="rtl">{{ Str::limit($review->testimonal, 60) }}</p>
                             </div>
                         </td>
 
 
 
-
-                        <td>
-                            <p class="text-nowrap d-flex align-items-center justify-content-center">{{ $review->rating }}
-                                <i class="fa-solid fa-star d-inline-block mx-1" style="color: #ecb603"></i>
-                            </p>
-                        </td>
+ 
 
 
 
                         <td>
-                            @if ($review->approved)
+                            @if ($review->status)
                                 <span class="fas fa-check-double fa-2x text-success"></span>
                             @else
                                 <span class="fas fa-times fa-2x text-danger"></span>
@@ -275,7 +284,7 @@
 
 
 
-                                @if (Auth::guard('admin')->user()->hasPermission('products-reviews-update') && !$review->approved)
+                                @if (Auth::guard('admin')->user()->hasPermission('products-reviews-update') && !$review->status)
                                     <div class="">
 
                                         <form class="action_btn"
@@ -357,13 +366,7 @@
                                         <div class="wrapper m-auto">
 
                                             <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">Title : {{ $review->title }} </li>
-                                                <li class="list-group-item"><strong>Review :</strong>
-                                                    {{ $review->review }} </li>
-
-                                                <li class="list-group-item">Rating : {{ $review->rating }} </li>
-
-
+                                       
 
 
 
@@ -392,7 +395,7 @@
 
 
                                                 <li class="list-group-item">Approved :
-                                                    @if ($review->approved)
+                                                    @if ($review->status)
                                                         <span class="badge bg-success">Approved</span>
                                                     @else
                                                         <span class="badge bg-danger">Not Approved</span>

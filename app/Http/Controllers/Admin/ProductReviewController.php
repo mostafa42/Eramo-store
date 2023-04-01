@@ -53,7 +53,7 @@ class ProductReviewController extends Controller
             $request->session()->flash('failed', 'Product Review Not Found');
             return redirect()->back();
         }
-        $review->approved =1;
+        $review->status =1;
         $review->save();
         $request->session()->flash('success', 'Product Review Approved SuccessFully');
 

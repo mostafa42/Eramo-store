@@ -25,7 +25,13 @@ class AppSetting extends Model
         'description',
         'logo_url',
         'logo_light_url',
-
+        'verification_banner',
+        'description_verification_ar',
+        'description_verification_en',
+        'text_verification_ar',
+        'text_verification_en',
+        'address_en',
+        'address_ar'
 
     ];
 
@@ -34,6 +40,17 @@ class AppSetting extends Model
 
         return  is_null($this->logo) ? $path.'/logo.png':$path .'/'.$this->logo;
     }
+
+    protected function getVerificationBannerAttribute($value){
+        // $path = asset('uploads/app');
+        // return  is_null($this->verification_banner) ? $path.'/logo.png':$path .'/'.$this->verification_banner;
+        if($value){
+            return asset('uploads/app' . '/' . $value);
+            }else{
+                return asset('uploads/app/logo.png');
+            }
+    }
+
 
     protected function getLogoLightUrlAttribute(){
         $path = asset('uploads/app');
@@ -124,5 +141,6 @@ class AppSetting extends Model
             get: fn ($value) =>explode(',', $value),
         );
     }
+
 
 }

@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 @section('title')
-    All Users
+    All Blogs
 @endsection
 
 @section('content')
@@ -16,30 +16,21 @@
                         <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     </a>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">Users</li>
+                <li class="breadcrumb-item active" aria-current="page">Blogs</li>
             </ol>
         </nav>
-        <h2 class="h4">All Users</h2>
+        <h2 class="h4">All Blogs</h2>
 
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
-        @if (Auth::guard('admin')->user()->hasPermission('users-create'))
-        <a href="{{ route('admin.users.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+        @if (Auth::guard('admin')->user()->hasPermission('blogs-create'))
+        <a href="{{ route('admin.blogs.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
             <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-            Create New User
+            Create New Blog
         </a>
         @endif
 
-        <div class="btn-group ms-2 ms-lg-3">
-            <a href="{{ route('admin.users.export') }}" class="btn btn-outline-success d-inline-flex align-items-center">
-                {{-- <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg> --}}
 
-                <svg class="icon icon-xs me-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-break-fill" viewBox="0 0 16 16">
-                    <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V9H2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3zM2 12h12v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2zM.5 10a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H.5z"/>
-                  </svg>
-               <span> Export As Excel</span>
-            </a>
-        </div>
     </div>
 </div>
 
@@ -68,36 +59,17 @@
                   <div class="accordion-body card card-body ">
 
 
-                    <form action="{{ route('admin.users.index') }}">
+                    <form action="{{ route('admin.blogs.index') }}">
 
                         <div class="row">
                             <div class="col-lg-4">
 
                                 <div class="form-group mb-3">
-                                    <label for="name">Name</label>
-                                    <input  type="text" id="name" value="{{ request()->name }}" name="name" class="form-control search-docs" placeholder="Name">
+                                    <label for="search">Search Keywords</label>
+                                    <input type="text" id="search" value="{{ request()->search }}" name="search"
+                                        class="form-control search-docs" placeholder="Search">
                                 </div>
                             </div>
-
-                            <div class="col-lg-4">
-
-                                <div class="form-group mb-3">
-                                    <label for="email">Email</label>
-
-                                    <input  type="text" id="email" value="{{ request()->email }}" name="email" class="form-control search-docs" placeholder="Email">
-
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4">
-
-                                <div class="form-group mb-3">
-                                    <label for="phone">Phone</label>
-
-                                    <input  type="text" id="phone" value="{{ request()->phone }}" name="phone" class="form-control search-docs" placeholder="Phone">
-                                </div>
-                            </div>
-
 
                             <div class="col-lg-4">
                                 <div class="form-group">
@@ -143,6 +115,7 @@
                                     </select>
                                 </div>
                             </div>
+
 
                             <div class="col-lg-4">
                                 <div class="form-group mb-3">
@@ -196,13 +169,11 @@
 
 {{-- table --}}
 <div class="card card-body border-0 shadow table-wrapper table-responsive">
-    <table class="table table-hover table-centered table-striped table-bordered text-center ">
+    <table class="table table-hover table-centered table-striped table-bordered text-center">
         <thead>
             <tr>
                 <th class="border-gray-200">ID</th>
-                <th class="border-gray-200">Name</th>
-                <th class="border-gray-200">Email</th>
-                  <th class="border-gray-200">Sign from</th>
+                <th class="border-gray-200">Title</th>
                 <th class="border-gray-200">Created At</th>
                 <th class="border-gray-200">Status</th>
                 <th class="border-gray-200">Action</th>
@@ -211,26 +182,32 @@
         <tbody >
             <!-- Item -->
 
-            @foreach ($users as $user )
+            @foreach ($blogs as $blog )
             <tr>
+
+
                 <td>
-                    <p>{{ $user->id }}.</p>
+                    <p class="text-nowrap">{{ $blog->id }}.</p>
                 </td>
+
+
+
                 <td>
-                    <p>{{ $user->name }}</p>
+
+                    <div class="m-auto" style="width:250px">
+                        <p class="" dir="rtl">{{ Str::limit($blog->title_ar, 60) }}</p>
+                        <p class="">{{ Str::limit($blog->title_en, 60) }}</p>
+                    </div>
                 </td>
+
+
+
                 <td>
-                    <p>{{ $user->email }}</p>
-                </td>
-                <td>
-                    <p>{{ $user->sign_from }}</p>
-                </td>
-                <td>
-                    @if ($user->created_at)
+                    @if ($blog->created_at)
                         <span class="text-nowrap d-block h6"><i class="fas fa-calendar-week text-info"></i>
-                            {{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y') }} </span>
+                            {{ \Carbon\Carbon::parse($blog->created_at)->format('d/m/Y') }} </span>
                         <span class="text-nowrap d-block h6"><i class="fas fa-clock text-success"></i>
-                            {{ \Carbon\Carbon::parse($user->created_at)->format('h:i:s A') }} </span>
+                            {{ \Carbon\Carbon::parse($blog->created_at)->format('h:i:s A') }} </span>
                     @else
                         ...
                     @endif
@@ -239,8 +216,9 @@
 
 
 
+
                 <td>
-                    @if ($user->status)
+                    @if ($blog->status)
                         <span class="btn btn-icon-only rounded-circle btn-success text-white m-auto "
                             style="font-size: 18px; cursor:default" title="Active" data-bs-toggle="tooltip"
                             data-bs-placement="top">
@@ -256,7 +234,14 @@
                         </span>
                     @endif
                 </td>
+
+
+
+
                 <td>
+
+
+
 
                     {{-- actions --}}
                     <div class="d-flex  align-items-center justify-content-center flex-md-nowrap">
@@ -265,7 +250,7 @@
                         <div class="">
                             <div data-bs-toggle="tooltip" data-bs-placement="top" title="Show Details">
                                 <button class="btn btn-primary  m-1" data-bs-toggle="modal"
-                                    data-bs-target="#modal-{{ $user->id }}" class=""><span
+                                    data-bs-target="#modal-{{ $blog->id }}" class=""><span
                                         class="fas fa-eye "></span>
                                 </button>
                             </div>
@@ -273,9 +258,9 @@
 
 
                         <div class="">
-                            @if (Auth::guard('admin')->user()->hasPermission('users-update'))
+                            @if (Auth::guard('admin')->user()->hasPermission('blogs-update'))
                                 <a class="btn btn-info m-1" class="dropdown-item"
-                                    href="{{ route('admin.users.edit', $user->id) }}" title="Edit"
+                                    href="{{ route('admin.blogs.edit', $blog->id) }}" title="Edit"
                                     data-bs-toggle="tooltip" data-bs-placement="top"><span
                                         class="fas fa-edit "></span>
                                 </a>
@@ -284,9 +269,9 @@
 
 
                         <div class="">
-                            @if ($user->deleted_at)
-                                @if (Auth::guard('admin')->user()->hasPermission('users-update'))
-                                    <form action="{{ route('admin.users.restore', $user->id) }}" method="POST"
+                            @if ($blog->deleted_at)
+                                @if (Auth::guard('admin')->user()->hasPermission('blogs-update'))
+                                    <form action="{{ route('admin.blogs.restore', $blog->id) }}" method="POST"
                                         class="action_btn" data-message="Are You Sure You Want To Restore It ?">
 
                                         @csrf
@@ -298,9 +283,9 @@
                                     </form>
                                 @endif
                             @else
-                                @if (Auth::guard('admin')->user()->hasPermission('users-delete'))
+                                @if (Auth::guard('admin')->user()->hasPermission('blogs-delete'))
                                     <form class="delete-btn m-0 p-0 "
-                                        action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+                                        action="{{ route('admin.blogs.destroy', $blog->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger m-1" type="submit" title="Delete"
@@ -322,105 +307,74 @@
                     {{-- actions --}}
 
 
-                </td>
 
 
 
 
-                <div class="modal fade" id="modal-{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h2 class="h6 modal-title">{{ $user->name }}</h2>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </tr>
+
+
+
+            <div class="modal fade" id="modal-{{ $blog->id }}" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="h6 modal-title">{{ $blog->title_en }}</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="wrapper m-auto">
+
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Title In Arabic : {{ $blog->title_ar }} </li>
+                                    <li class="list-group-item">Title In English : {{ $blog->title_en }} </li>
+
+                                    <li class="list-group-item">Added By :
+
+                                        @if ($blog->admin)
+
+                                        <a class="btn btn-outline-primary" href="{{ route('admin.admins.index' ,[ 'admin_id'=>$blog->admin->id ] )}}">{{ $blog->admin->name }}</a>
+                                        @else
+                                           --
+                                        @endif
+
+                                    </li>
+
+                                    <li class="list-group-item">Status :
+                                        @if ($blog->status)
+                                        <span class="badge bg-success">Active</span>
+
+                                        @else
+                                        <span class="badge bg-danger">InActive</span>
+
+                                        @endif
+                                    </li>
+
+                                    <li class="list-group-item">Added Date :  <i class="fas fa-calendar-week text-info"></i> {{ \Carbon\Carbon::parse($blog->created_at)->format('d/m/Y')}}  </li>
+                                    <li class="list-group-item">Added Time : <i class="fas fa-clock text-success"></i> {{ \Carbon\Carbon::parse($blog->created_at)->format('h:i:s A')}}</li>
+
+                                </ul>
                             </div>
-                            <div class="modal-body">
 
-                                <div class="wrapper m-auto">
-                                    <div class="d-flex mb-2">
-                                        <img class="model-img" src="{{ $user->image_url }}" alt="{{ $user->name }} Image">
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">Name : {{ $user->name }} </li>
-                                        <li class="list-group-item">Email : {{ $user->email }} </li>
-                                        <li class="list-group-item">Phone :  {{ $user->phone }}</li>
-                                        <li class="list-group-item">Gender :
-                                            <span class="badge bg-primary">
-                                                <i class="fa-solid fa-venus-mars text-danger"></i>
-                                                {{ucfirst($user->gender)  }}
-                                            </span>
-
-                                        </li>
-                                        <li class="list-group-item">Country :
-                                            @if ($user->country)
+                        </div>
+                        <div class="modal-footer">
 
 
-                                            <span class="badge bg-info">
-                                                <i class="fa-solid fa-flag text-danger"></i>
-                                                {{ $user->country->title_en }}
-                                            </span>
+                            @if (Auth::guard('admin')->user()->hasPermission('blogs-update'))
+                            <a class="btn btn-primary" href="{{ route('admin.blogs.edit', $blog->id) }}"><span class="fas fa-edit me-2"></span>Edit</a>
 
-                                            @else
-                                                --
-                                            @endif
+                            @endif
 
-                                        </li>
+                            {{-- <button type="button" class="btn btn-secondary">Accept</button> --}}
 
 
-                                        <li class="list-group-item">City :
-                                            @if ($user->city)
-
-
-                                            <span class="badge bg-warning ">
-                                                <i class="fa-solid fa-city text-danger"></i>
-                                                {{ $user->city->title_en }}
-                                            </span>
-
-                                            @else
-                                                --
-                                            @endif
-
-                                        </li>
-
-
-
-                                        <li class="list-group-item">Sign Up From  :  <span class="badge bg-primary">{{strtoupper($user->sign_from)  }}</span>
-                                            </li>
-
-                                        <li class="list-group-item">Status :
-                                            @if ($user->status)
-                                            <span class="badge bg-success">Active</span>
-
-                                            @else
-                                            <span class="badge bg-danger">InActive</span>
-
-                                            @endif
-                                        </li>
-
-                                        <li class="list-group-item">Added Date :  <i class="fas fa-calendar-week text-info"></i> {{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y')}}  </li>
-                                        <li class="list-group-item">Added Time : <i class="fas fa-clock text-success"></i> {{ \Carbon\Carbon::parse($user->created_at)->format('h:i:s A')}}</li>
-
-                                    </ul>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-
-
-                                @if (Auth::guard('admin')->user()->hasPermission('users-update'))
-                                <a class="btn btn-primary" href="{{ route('admin.users.edit', $user->id) }}"><span class="fas fa-edit me-2"></span>Edit</a>
-
-                                @endif
-
-                                {{-- <button type="button" class="btn btn-secondary">Accept</button> --}}
-
-
-                                <button type="button" class="btn btn-link text-gray ms-auto" data-bs-dismiss="modal">Close</button>
-                            </div>
+                            <button type="button" class="btn btn-link text-gray ms-auto" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
-            </tr>
+            </div>
             @endforeach
             <!-- Item -->
 
@@ -434,13 +388,13 @@
         </tbody>
     </table>
     <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-        {!! $users->appends(request()->query())->links('pagination::bootstrap-5')!!}
+        {!! $blogs->appends(request()->query())->links('pagination::bootstrap-5')!!}
 
 
 
     </div>
 
-    @if ( $users->count()< 1)
+    @if ( $blogs->count()< 1)
     <div class="d-flex justify-content-center" style="min-height: 300px">
         Empty
     </div>

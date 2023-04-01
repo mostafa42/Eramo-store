@@ -69,12 +69,23 @@ class SettingService
             'linkedin_link',
             'pinterest_link',
 
+            'verification_banner',
 
             'keywords_ar',
             'keywords_en',
             'description_ar',
             'description_en',
-            'status'
+
+           
+            
+            'status',
+
+            'description_verification_ar',
+            'description_verification_en',
+
+            
+            'text_verification_ar',
+            'text_verification_en',
         ]);
 
         $setting->update($data);
@@ -106,6 +117,19 @@ class SettingService
             $logo_lightName = UploadHelper::upload('app', $request->file('logo_light'), config('imageDimensions.app_logo_light.width'), config('imageDimensions.app_logo_light.height'));
 
             $setting->logo_light = $logo_lightName;
+        }
+
+        if ($request->hasFile('verification_banner')) {
+
+
+            if (File::exists(public_path('uploads/app/' . $setting->verification_banner))) {
+
+                Storage::disk('public_uploads')->delete('app/' . $setting->verification_banner);
+            }
+
+            $verification_bannerName = UploadHelper::upload('app', $request->file('verification_banner'), config('imageDimensions.verification_banner.width'), config('imageDimensions.verification_banner.height'));
+
+            $setting->verification_banner = $verification_bannerName;
         }
         $setting->save();
 

@@ -108,6 +108,23 @@ Create New Product
 
                 {{-- title_en --}}
 
+                      <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label for="material">material<span class="text-danger">*</span></label>
+                        <input required type="text" name="material" class="form-control @error('material') is-invalid @enderror" value="{{ old('material   ') }}">
+                    </div>
+
+
+                    @error('material')
+                    <div class="d-flex justify-content-center ">
+
+                        <div class="text-danger" >
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    </div>
+                    @enderror
+                </div>
+
                 {{-- model_number --}}
                 <div class="col-md-6">
                     <div class="form-group mb-4">
@@ -150,6 +167,25 @@ Create New Product
 
 
 
+                {{-- sku_number --}}
+                <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label for="shipping">Shipping</label>
+                        <input  type="text" name="shipping" class="form-control @error('shipping') is-invalid @enderror" value="{{ old('shipping') }}">
+                    </div>
+
+
+                    @error('shipping')
+                    <div class="d-flex justify-content-center ">
+
+                        <div class="text-danger" >
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    </div>
+                    @enderror
+                </div>
+
+                {{-- sku_number --}}
 
 
 
@@ -265,6 +301,43 @@ Create New Product
 
                 {{-- main_category_id --}}
 
+
+
+
+
+
+{{-- city_id --}}
+                  <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label  for="city_id">City <span class="text-danger">*</span></label>
+                        <select  required name="city_id" id="city_id" class="form-select @error('city_id') is-invalid @enderror">
+
+                            @foreach (App\Models\City::get() as $city)
+                            <option value="{{ $city->id }}" {{ old('city_id') ==$city->id?'selected':''}}>{{ $city->title_en .' - ' .$city->title_ar}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
+                    @error('city_id')
+                    <div class="d-flex justify-content-center ">
+
+                        <div class="text-danger" >
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    </div>
+                    @enderror
+                </div>
+
+                {{-- category_id --}}
+
+
+
+
+
+
+
+
                 {{-- category_id --}}
                   <div class="col-md-6">
                     <div class="form-group mb-4">
@@ -319,6 +392,63 @@ Create New Product
                 {{-- taxes --}}
 
 
+
+
+
+
+                          <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label  for="colors">Colors </label>
+                        <select multiple  name="colors[]" id="colors" class="form-select @error('colors') is-invalid @enderror">
+                            @foreach (App\Models\Color::get() as $color)
+                            <option  value="{{ $color->code }}" >{{ $color->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
+                    @error('colors')
+                    <div class="d-flex justify-content-center ">
+
+                        <div class="text-danger" >
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    </div>
+                    @enderror
+                </div>
+
+
+
+
+
+
+                            {{-- taxes --}}
+                  <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label  for="taxes">Sizes </label>
+                        <select multiple  name="sizes[]" id="sizes" class="form-select @error('sizes') is-invalid @enderror">
+                            <option  value="s" >small  - صغير</option>
+                            <option  value="m" >medium -  متوسط</option>
+                            <option  value="l" >large  -  لارج</option>
+                            <option  value="xl">xlarge  -  اكس لارج</option>
+                            <option  value="xxl">xxlarge  -  اكس اكس لارج</option>
+                            <option  value="xxxl">xxxlarge  -  اكس اكس اكس لارج</option>
+
+                        </select>
+                    </div>
+
+
+                    @error('sizes')
+                    <div class="d-flex justify-content-center ">
+
+                        <div class="text-danger" >
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    </div>
+                    @enderror
+                </div>
+
+                {{-- taxes --}}
 
                 {{-- products_with --}}
                   <div class="col-md-6">

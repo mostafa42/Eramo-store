@@ -97,16 +97,16 @@
                                             <div class="show-div setting">
                                                 <h6>language</h6>
                                                 <ul>
-                                                    <li><a href="#">english</a></li>
-                                                    <li><a href="#">french</a></li>
+                                                    <li><a href="{{url('/language/en')}}">{{__('trans.english') }}<img src="{{ asset('assets/images/flags/united-kingdom.png') }}" style="margin-left: 5px"></a></li>
+                                                    <li><a href="{{url('/language/ar')}}">{{__('trans.arabic') }}<img src="{{ asset('assets/images/flags/egypt.png') }}" style="margin-left: 25px"></a></li>
                                                 </ul>
-                                                <h6>currency</h6>
+                                                {{--  <h6>currency</h6>
                                                 <ul class="list-inline">
                                                     <li><a href="#">euro</a></li>
                                                     <li><a href="#">rupees</a></li>
                                                     <li><a href="#">pound</a></li>
                                                     <li><a href="#">doller</a></li>
-                                                </ul>
+                                                </ul>  --}}
                                             </div>
                                         </li>
                                         <li class="onhover-div mobile-cart d-sm-inline-block d-none">

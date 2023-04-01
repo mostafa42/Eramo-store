@@ -20,22 +20,22 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        // $this->call(LaratrustSeeder::class);
+        $this->call(LaratrustSeeder::class);
 
-        // $this->call(AdminSeeder::class);
-        // $this->call(ContactMessageSeeder::class);
-        // $this->call(TaxSeeder::class);
-        // $this->call(PromoCodeSeeder::class);
+        $this->call(AdminSeeder::class);
+        $this->call(ContactMessageSeeder::class);
+        $this->call(TaxSeeder::class);
+        $this->call(PromoCodeSeeder::class);
 
-        // $this->call(CountrySeeder::class);
-        // $this->call(CitySeeder::class);
-        // $this->call(RegionSeeder::class);
+        $this->call(CountrySeeder::class);
+        $this->call(CitySeeder::class);
+        $this->call(RegionSeeder::class);
 
-        // $this->call(ProductCategorySeeder::class);
-        // $this->call(ProductSeeder::class);
-        // $this->call(ShippingSeeder::class);
-        // $this->call(UserSeeder::class);
-        // $this->call(OrderSeeder::class);
+        $this->call(ProductCategorySeeder::class);
+        $this->call(ProductSeeder::class);
+        $this->call(ShippingSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(OrderSeeder::class);
 
 
 

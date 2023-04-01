@@ -77,8 +77,15 @@ public function update(Request $request)
         'logo'=>['nullable','image','max:10240'],
         'logo_light'=>['nullable','image','max:10240'],
 
-
+        'verification_banner'=>['nullable','image','max:10240'],
+        
         'status'=>['nullable','string', Rule::in([1,0])],
+
+        'description_verification_ar'=>['nullable','string','min:2'],
+        'description_verification_en'=>['nullable','string','min:2'],
+
+        'text_verification_ar'=>['nullable','string','min:2'],
+        'text_verification_en'=>['nullable','string','min:2'],
     ]);
 
     $updated = $this->settingServices->update($request);

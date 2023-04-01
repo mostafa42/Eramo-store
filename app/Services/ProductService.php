@@ -3,6 +3,8 @@
 namespace App\Services;
 use App\Models\Product;
 use App\Helper\UploadHelper;
+use App\Models\ProductColor;
+use App\Models\ProductSize;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -121,6 +123,10 @@ public function store(Request $request  ){
             'extras_ar',
             'extras_en',
             'to',
+            'city_id',
+            'shipping',
+            'material',
+
 
         ]);
         $data['admin_id'] = Auth::guard('admin')->id();
@@ -156,6 +162,25 @@ public function store(Request $request  ){
 
     }
     $product->save();
+        $sizes= $request->sizes;
+        if (isset($sizes)) {
+            for($i=0;$i<count($sizes);$i++){
+            ProductSize::create([
+                'product_id'=>$product->id,
+                'size'=>$sizes[$i]
+            ]);
+        }
+        }
+
+        $colors = $request->colors;
+        if (isset($colors)) {
+            for ($i = 0; $i < count($colors); $i++) {
+                ProductColor::create([
+                    'product_id' => $product->id,
+                    'color' => $colors[$i]
+                ]);
+            }
+        }
 
     return true;
 
@@ -194,6 +219,8 @@ public function update(Request $request ,Product $product){
         'extras_ar',
         'extras_en',
         'to',
+        'shipping',
+        'material',
 
     ]);
 
@@ -234,7 +261,27 @@ public function update(Request $request ,Product $product){
     }
     $product->save();
 
+        $sizes = $request->sizes;
+        if (isset($sizes)) {
+            ProductSize::where('product_id',$product->id)->delete();
+            for ($i = 0; $i < count($sizes); $i++) {
+                ProductSize::create([
+                    'product_id' => $product->id,
+                    'size' => $sizes[$i]
+                ]);
+            }
+        }
 
+        $colors = $request->colors;
+        if (isset($colors)) {
+            ProductColor::where('product_id', $product->id)->delete();
+            for ($i = 0; $i < count($colors); $i++) {
+                ProductColor::create([
+                    'product_id' => $product->id,
+                    'color' => $colors[$i]
+                ]);
+            }
+        }
     return $product ? true :false;
 
 

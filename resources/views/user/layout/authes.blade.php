@@ -109,6 +109,16 @@
                 }
             </script>
 
+            <script>
+                function addToWishList(id){
+                    console.log(id)
+
+    }
+    $("#mostafabtn").on("click" , function(){
+        alert("hello") ;
+    })
+            </script>
+
             <!-- My Custom Scripts -->
             <!-- My Custom Scripts -->
             <script src="{{ asset('assets/js/ajax/ajax.js') }}"></script>

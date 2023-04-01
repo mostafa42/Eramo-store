@@ -2,6 +2,7 @@
 
 namespace App\Services;
 use App\Models\ProductReview;
+use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -11,7 +12,7 @@ class ProductReviewService {
 
 
 protected $review;
-public function __construct(ProductReview $review){
+public function __construct(Review $review){
 
     $this->review = $review;
 
@@ -19,7 +20,7 @@ public function __construct(ProductReview $review){
 
 public function getAll(Request $request){
 
-    $approved = isset($request->approved) && ($request->approved == 0 || $request->approved == 1) ?true:false;
+    $status = isset($request->status) && ($request->status == 0 || $request->status == 1) ?true:false;
     $limit = isset($request->limit) && filter_var($request->limit,FILTER_VALIDATE_INT) ? $request->limit:5;
     $order = isset($request->order) && $request->order =='ASC'? 'ASC':'DESC';
     $codes = $this->review::with(['product','user'])
@@ -50,9 +51,9 @@ public function getAll(Request $request){
 
 
 
-    ->where(function($query)use($request , $approved){
-        return $query->when($approved ,function($q ) use($request){
-            return $q->whereApproved($request->approved);
+    ->where(function($query)use($request , $status){
+        return $query->when($status ,function($q ) use($request){
+            return $q->whereStatus($request->status);
         });
     })
     ->orderBy('created_at' , $order)
@@ -63,42 +64,37 @@ public function getAll(Request $request){
     return $codes;
 }
 
-public function store(Request $request  ){
+// public function store(Request $request  ){
 
 
-        $data = $request->only([
-            'title',
-            'expiration_date',
-            'type',
-            'value',
-            'dedicated_to',
-            'percent_or_amount',
-            'user_id',
-            'status',
-            'maximum_times_of_use'
+//         $data = $request->only([
+//             'title',
+//             'expiration_date',
+//             'type',
+//             'value',
+//             'dedicated_to',
+//             'percent_or_amount',
+//             'user_id',
+//             'status',
+//             'maximum_times_of_use'
 
-        ]);
-        $data['admin_id'] = Auth::guard('admin')->id();
-     $this->review::create($data);
+//         ]);
+//         $data['admin_id'] = Auth::guard('admin')->id();
+//      $this->review::create($data);
 
-    return true;
-
-
-}
+//     return true;
 
 
-public function update(Request $request ,ProductReview $review){
+// }
+
+
+public function update(Request $request ,Review $review){
 
 
     $data = $request->only([
-        'title',
-        'expiration_date',
-        'type',
-        'value',
-        'dedicated_to',
-        'percent_or_amount',
+        
         'status',
-        'maximum_times_of_use'
+    
     ]);
 
      $data['user_id'] = $request->user_id;
@@ -118,8 +114,8 @@ public function getById(int $id){
 
 
 
-public function getActiveProductReviews(){
-    return  $this->review::whereStatus(1)->get();
+// public function getActiveProductReviews(){
+//     return  $this->review::whereStatus(1)->get();
 
-}
+// }
 }

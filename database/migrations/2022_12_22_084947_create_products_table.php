@@ -42,8 +42,10 @@ return new class extends Migration
             $table->text('extras_ar')->nullable();
             $table->text('extras_en')->nullable();
 
-
-
+            $table->string('material')->nullable();
+            $table->text('video')->nullable();
+            $table->string('shipping')->nullable();
+            
             $table->double('fake_price', 8, 2);
             $table->double('real_price', 8, 2);
             $table->double('purchase_price', 8, 2);
@@ -58,6 +60,8 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('product_categories')->cascadeOnUpdate()->nullOnDelete();
             $table->unsignedBigInteger('main_category_id')->nullable();
             $table->foreign('main_category_id')->references('id')->on('product_categories')->cascadeOnUpdate()->nullOnDelete();
+            $table->unsignedBigInteger("city_id");
+            $table->foreign('city_id')->references('id')->on('cities')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

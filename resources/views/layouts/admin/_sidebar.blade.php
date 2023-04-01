@@ -201,6 +201,7 @@
 
                         </ul>
                     </div>
+
                 </li>
             @endif
 
@@ -289,7 +290,7 @@
                                     <span class="sidebar-icon">
                                         <i class="fa-regular fa-circle icon icon-xs me-2"></i>
                                     </span>
-                                    <span class="sidebar-text"> Homepage Slider</span>
+                                    <span class="sidebar-text"> Main Slider</span>
                                 </a>
                             </li>
 
@@ -325,73 +326,6 @@
                                         <i class="fa-regular fa-circle icon icon-xs me-2"></i>
                                     </span>
                                     <span class="sidebar-text"> Our Features </span>
-                                </a>
-                            </li>
-
-
-                            <li
-                                class="nav-item  {{ Route::is('admin.terms-and-conditions.*') && request()->type && request()->type == 'sub' ? 'active' : '' }}">
-                                <a href="{{ route('admin.user-front-settings.main_section_footer_footer', ['type' => 'sub']) }}"
-                                    class="nav-link ">
-                                    <span class="sidebar-icon">
-                                        <i class="fa-regular fa-circle icon icon-xs me-2"></i>
-                                    </span>
-                                    <span class="sidebar-text"> Main Section Footer </span>
-                                </a>
-                            </li>
-
-                            <li
-                                class="nav-item  {{ Route::is('admin.terms-and-conditions.*') && request()->type && request()->type == 'sub' ? 'active' : '' }}">
-                                <a href="{{ route('admin.user-front-settings.my_account_footer', ['type' => 'sub']) }}"
-                                    class="nav-link ">
-                                    <span class="sidebar-icon">
-                                        <i class="fa-regular fa-circle icon icon-xs me-2"></i>
-                                    </span>
-                                    <span class="sidebar-text"> My Account Section </span>
-                                </a>
-                            </li>
-
-                            <li
-                                class="nav-item  {{ Route::is('admin.terms-and-conditions.*') && request()->type && request()->type == 'sub' ? 'active' : '' }}">
-                                <a href="{{ route('admin.user-front-settings.why_we_choose_footer', ['type' => 'sub']) }}"
-                                    class="nav-link ">
-                                    <span class="sidebar-icon">
-                                        <i class="fa-regular fa-circle icon icon-xs me-2"></i>
-                                    </span>
-                                    <span class="sidebar-text"> Why We Choose Section </span>
-                                </a>
-                            </li>
-
-                            <li
-                                class="nav-item  {{ Route::is('admin.terms-and-conditions.*') && request()->type && request()->type == 'sub' ? 'active' : '' }}">
-                                <a href="{{ route('admin.user-front-settings.store_info_footer', ['type' => 'sub']) }}"
-                                    class="nav-link ">
-                                    <span class="sidebar-icon">
-                                        <i class="fa-regular fa-circle icon icon-xs me-2"></i>
-                                    </span>
-                                    <span class="sidebar-text"> Store Information Section </span>
-                                </a>
-                            </li>
-
-                            <li
-                                class="nav-item  {{ Route::is('admin.terms-and-conditions.*') && request()->type && request()->type == 'sub' ? 'active' : '' }}">
-                                <a href="{{ route('admin.user-front-settings.top_adv_product_details', ['type' => 'sub']) }}"
-                                    class="nav-link ">
-                                    <span class="sidebar-icon">
-                                        <i class="fa-regular fa-circle icon icon-xs me-2"></i>
-                                    </span>
-                                    <span class="sidebar-text"> Product Top Adv </span>
-                                </a>
-                            </li>
-
-                            <li
-                                class="nav-item  {{ Route::is('admin.terms-and-conditions.*') && request()->type && request()->type == 'sub' ? 'active' : '' }}">
-                                <a href="{{ route('admin.user-front-settings.under_adv_product_details', ['type' => 'sub']) }}"
-                                    class="nav-link ">
-                                    <span class="sidebar-icon">
-                                        <i class="fa-regular fa-circle icon icon-xs me-2"></i>
-                                    </span>
-                                    <span class="sidebar-text"> Product Under Adv </span>
                                 </a>
                             </li>
 
@@ -570,7 +504,7 @@
 
 
                             <li
-                                class="nav-item  {{ (Route::is('admin.products-reviews.*') && (request()->approved != 1 && request()->approved != 0)) || !isset(request()->approved) ? 'active' : '' }}">
+                                class="nav-item  {{ (Route::is('admin.products-reviews.*') && (request()->status != 1 && request()->status != 0)) || !isset(request()->status) ? 'active' : '' }}">
                                 <a href="{{ route('admin.products-reviews.index', ['approved' => 'all']) }}"
                                     class="nav-link ">
                                     <span class="sidebar-icon">
@@ -581,8 +515,8 @@
                             </li>
 
                             <li
-                                class="nav-item  {{ Route::is('admin.products-reviews.*') && request()->approved && request()->approved == 1 ? 'active' : '' }}">
-                                <a href="{{ route('admin.products-reviews.index', ['approved' => 1]) }}"
+                                class="nav-item  {{ Route::is('admin.products-reviews.*') && request()->status && request()->status == 1 ? 'active' : '' }}">
+                                <a href="{{ route('admin.products-reviews.index', ['status' => 1]) }}"
                                     class="nav-link ">
                                     <span class="sidebar-icon">
                                         <i class="fa-regular fa-circle icon icon-xs me-2"></i>
@@ -593,8 +527,8 @@
 
 
                             <li
-                                class="nav-item  {{ Route::is('admin.products-reviews.*') && isset(request()->approved) && request()->approved == 0 ? 'active' : '' }}">
-                                <a href="{{ route('admin.products-reviews.index', ['approved' => 0]) }}"
+                                class="nav-item  {{ Route::is('admin.products-reviews.*') && isset(request()->status) && request()->status == 0 ? 'active' : '' }}">
+                                <a href="{{ route('admin.products-reviews.index', ['status' => 0]) }}"
                                     class="nav-link ">
                                     <span class="sidebar-icon">
                                         <i class="fa-regular fa-circle icon icon-xs me-2"></i>
@@ -654,7 +588,7 @@
                                     <span class="sidebar-icon">
                                         <i class="far fa-plus-square icon icon-xs me-2 text-warning"></i>
                                     </span>
-                                    <span class="sidebar-text">New Orders</span>
+                                    <span class="sidebar-text">New Orders <span style="color:red">{{ App\Models\Order::where('status','new')->count() }}</span></span>
                                 </a>
                             </li>
 
@@ -664,7 +598,7 @@
                                     <span class="sidebar-icon">
                                         <i class="fas fa-spinner icon icon-xs me-2 text-info"></i>
                                     </span>
-                                    <span class="sidebar-text"> Inprogress Orders </span>
+                                    <span class="sidebar-text"> Inprogress Orders <span style="color:red">{{ App\Models\Order::where('status','inprogress')->count() }}</span></span>
                                 </a>
                             </li>
 
@@ -675,7 +609,7 @@
                                     <span class="sidebar-icon">
                                         <i class="fas fa-check-double icon icon-xs me-2 text-success"></i>
                                     </span>
-                                    <span class="sidebar-text"> Delivered Orders </span>
+                                    <span class="sidebar-text"> Delivered Orders <span style="color:red">{{ App\Models\Order::where('status','delivered')->count() }}</span></span>
                                 </a>
                             </li>
 
@@ -686,7 +620,7 @@
                                     <span class="sidebar-icon">
                                         <i class="fas fa-window-close icon icon-xs me-2 text-danger"></i>
                                     </span>
-                                    <span class="sidebar-text"> Cancelled Orders </span>
+                                    <span class="sidebar-text"> Cancelled Orders <span style="color:red">{{ App\Models\Order::where('status','cancelled')->count() }}</span></span>
                                 </a>
                             </li>
 
@@ -954,7 +888,19 @@
 
             {{-- settings --}}
 
+  <li class="nav-item {{ Route::is('admin.blogs.*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.blogs.index') }}" class="nav-link ">
+                                    <span class="sidebar-icon">
+                                        <i class="fa-regular fa-circle icon icon-xs me-2"></i>
+                                    </span>
+                                    <span class="sidebar-text"> Blogs</span>
+                                </a>
+                            </li>
 
+                    </ul>
+                </div>
+            </li>
+            
             <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
 
         </ul>

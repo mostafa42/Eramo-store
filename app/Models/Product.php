@@ -78,7 +78,11 @@ class Product extends Model
     {
         return $this->belongsTo(ProductCategory::class, 'category_id');
     }
-
+    
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
 
     public function main_category()
     {

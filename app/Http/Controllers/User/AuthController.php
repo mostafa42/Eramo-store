@@ -8,6 +8,7 @@ use App\Http\Requests\User\Auth\SignUpRequest;
 use App\Http\Requests\User\Home\UpdateProfileRequest;
 use App\Http\Requests\User\Home\UpdateShippingAddressRequest;
 use App\Models\Admin;
+use App\Models\AppSetting;
 use App\Models\Cart;
 use App\Models\CompareList;
 use App\Models\Country;
@@ -15,16 +16,25 @@ use App\Models\FirstAdv;
 use App\Models\MainSectionFooter;
 use App\Models\MainSlider;
 use App\Models\MyAccountSectionFooter;
+use App\Models\OrderDetail;
 use App\Models\OurFeature;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductColor;
+use App\Models\ProductDetails;
+use App\Models\ProductMedia;
+use App\Models\ProductReview;
+use App\Models\ProductSize;
 use App\Models\SecondAdvs;
 use App\Models\StoreInformationFooter;
 use App\Models\User;
 use App\Models\UserAddress;
 use App\Models\WhyWeChooseFooter;
+use App\Models\Wishlist;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -216,5 +226,82 @@ class AuthController extends Controller
         Auth::logout();
 
         return redirect('/login') ;
+    }
+
+    public function productDetails($slug)
+    {
+        $product=Product::find($slug);
+        $getProduct=Product::where('slug_ar',$slug)->orWhere('slug_en', $slug)->first();
+        $medias=ProductMedia::where('product_id', $getProduct->id)->get();
+        $ordersCount=OrderDetail::whereMonth('created_at', Carbon::now()->month)->count();
+        $reviews=User::where('status',1)->count();
+        $details=ProductDetails::where('product_id', $getProduct->id)->first();
+        $sizes=ProductSize::where('product_id', $getProduct->id)->get();
+        $colors=ProductColor::where('product_id', $getProduct->id)->get();
+        $getprods= DB::table('product_products_with')->where('product_id', $getProduct->id)->pluck('product_with_id');
+        $getproducts_with=Product::whereIn('id', $getprods)->get();
+        $get2Products=Product::whereIn('id', $getprods)->take(2)->get();
+        $reviews=ProductReview::where('product_id',$getProduct->id)->where('status',1)->latest()->paginate(5);
+         return view('user.auth_user.product_details',compact('product',
+        'medias','getProduct','ordersCount',
+            'getproducts_with',
+            'reviews','details','sizes','colors','get2Products'));
+    }
+
+    public function addToWishList($id)
+   {
+    $wish=Wishlist::where('product_id', $id)->where('user_id',auth()->user()->id)->first();
+    if(isset($wish)){
+            $wish->delete();
+    }else{
+            $wishlist=new Wishlist();
+            $wishlist->product_id= $id;
+            $wishlist->user_id= auth()->user()->id;
+            $wishlist->save();
+    }
+   }
+
+   public function getUserWishlist()
+   {
+       $wishlist=Wishlist::where('user_id', auth()->user()->id)->get();
+       return view('user.auth_user.wishlist', compact('wishlist'));
+   }
+
+   public function storeRatings(Request $request)
+    {
+        $review=Review::where('user_id', auth()->user()->id)
+        ->where('product_id',$request->product_id)->first();
+        if(isset($review)){
+            return redirect()->back()->withErrors(["error" => "you created review before !"]);
+        }else{
+        Review::create([
+            'user_id'=> auth()->user()->id,
+            'product_id' => $request->product_id,
+            'name'=>$request->name,
+            'subject' => $request->subject,
+            'testimonal'=>$request->testimonal,
+            'email'=>$request->email
+        ]);
+        return redirect()->back();
+    }
+    }
+
+    public function deleteWishlist($id)
+    {
+        $wishlist=Wishlist::find($id);
+        $wishlist->delete();
+        return redirect()->back();
+    }
+
+    public function verification()
+    {
+        $settings=AppSetting::first();
+        return view('user.verification', compact('settings'));
+    }
+
+    public function invoice()
+    {
+        $settings=AppSetting::first();
+        return view('user.auth_user.invoice', compact('settings'));
     }
 }

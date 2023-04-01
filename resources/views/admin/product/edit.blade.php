@@ -117,6 +117,25 @@
 
                     {{-- title_en --}}
 
+                      <div class="col-md-6">
+                        <div class="form-group mb-4">
+                            <label for="material">Material <span class="text-danger">*</span></label>
+                            <input required type="text" name="material"
+                                class="form-control @error('material') is-invalid @enderror"
+                                value="{{ $product->material }}">
+                        </div>
+
+
+                        @error('material')
+                            <div class="d-flex justify-content-center ">
+
+                                <div class="text-danger">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            </div>
+                        @enderror
+                    </div>
+
                     {{-- model_number --}}
                     <div class="col-md-6">
                         <div class="form-group mb-4">
@@ -162,6 +181,27 @@
                     {{-- sku_number --}}
 
 
+
+
+                {{-- sku_number --}}
+                <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label for="shipping">Shipping</label>
+                        <input  type="text" name="shipping" class="form-control @error('shipping') is-invalid @enderror" "value="{{ $product->shipping }}">
+                    </div>
+
+
+                    @error('shipping')
+                    <div class="d-flex justify-content-center ">
+
+                        <div class="text-danger" >
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    </div>
+                    @enderror
+                </div>
+
+                {{-- sku_number --}}
 
 
 
@@ -288,6 +328,43 @@
 
                     {{-- main_category_id --}}
 
+
+
+
+
+
+
+
+
+
+                     {{-- city_id --}}
+                    <div class="col-md-6">
+                        <div class="form-group mb-4">
+                            <label for="main_category_id">City <span class="text-danger">*</span></label>
+                            <select required name="city_id" id="city_id"
+                                class="form-select @error('city_id') is-invalid @enderror">
+
+                                @foreach (App\Models\city::get() as $city)
+                                    <option value="{{ $city->id }}"
+                                        {{ $product->city_id == $city->id ? 'selected' : '' }}>
+                                        {{ $city->title_en . ' - ' . $city->title_ar }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
+                        @error('city_id')
+                            <div class="d-flex justify-content-center ">
+
+                                <div class="text-danger">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            </div>
+                        @enderror
+                    </div>
+
+                    {{-- main_category_id --}}
+
                     {{-- category_id --}}
                     <div class="col-md-6">
                         <div class="form-group mb-4">
@@ -302,6 +379,8 @@
                                 @endforeach
                             </select>
                         </div>
+
+
 
 
                         @error('category_id')
@@ -347,6 +426,61 @@
 
                     {{-- taxes --}}
 
+
+
+                          <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label  for="colors">Colors </label>
+                        <select multiple  name="colors[]" id="colors" class="form-select @error('colors') is-invalid @enderror">
+                            @foreach (App\Models\Color::get() as $color)
+                            <option  value="{{ $color->code }}" @foreach($productColors as $c) @if($color->code==$c) selected @endif @endforeach>{{ $color->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
+                    @error('colors')
+                    <div class="d-flex justify-content-center ">
+
+                        <div class="text-danger" >
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    </div>
+                    @enderror
+                </div>
+
+
+
+
+
+
+                            {{-- taxes --}}
+                  <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label  for="taxes">Sizes </label>
+                        <select multiple  name="sizes[]" id="sizes" class="form-select @error('sizes') is-invalid @enderror">
+                            <option  value="s" @if(App\Models\ProductSize::where('product_id',$product->id)->where('size','s')->first()) selected @endif>small  - صغير</option>
+                            <option  value="m" @if(App\Models\ProductSize::where('product_id',$product->id)->where('size','m')->first()) selected @endif>medium -  متوسط</option>
+                            <option  value="l" @if(App\Models\ProductSize::where('product_id',$product->id)->where('size','l')->first()) selected @endif>large  -  لارج</option>
+                            <option  value="xl" @if(App\Models\ProductSize::where('product_id',$product->id)->where('size','xl')->first()) selected @endif>xlarge  -  اكس لارج</option>
+                            <option  value="xxl" @if(App\Models\ProductSize::where('product_id',$product->id)->where('size','xxl')->first()) selected @endif>xxlarge  -  اكس اكس لارج</option>
+                            <option  value="xxxl" @if(App\Models\ProductSize::where('product_id',$product->id)->where('size','xxxl')->first()) selected @endif>xxxlarge  -  اكس اكس اكس لارج</option>
+
+                        </select>
+                    </div>
+
+
+                    @error('sizes')
+                    <div class="d-flex justify-content-center ">
+
+                        <div class="text-danger" >
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    </div>
+                    @enderror
+                </div>
+
+                {{-- taxes --}}
 
 
                     {{-- products_with --}}

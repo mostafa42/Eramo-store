@@ -94,6 +94,49 @@
             <script src="../assets/js/timer1.js"></script>
 
             <script>
+                function addToWishList(id){
+                    var product_id = id;
+                    var url = "{{ route('wishlists.store', ":product_id") }}";
+                    url = url.replace(':product_id', product_id);
+                   //alert ("helloooooo");
+           
+                       $.post(url, {_token:'{{ csrf_token() }}', id:id}, function(data){
+                           if(data != 0){
+                               $('#wishlist').html(data);
+                              // alert('Item has been added to wishlist');
+                              toastr.success('Item has been added to wishlist', "success",{iconClass:"toast-custom"});
+                           }
+           
+                       });
+           
+               }
+           
+               $(document).load(function () {
+                   hello() ;
+               });
+           
+               // $("#add_to_wish_list").on("click" , function(){
+               //     alert("hello");
+               // })
+           
+               function hello(id){
+                   var product_id = id;
+                    var url = "{{ route('wishlists.store', ":product_id") }}";
+                    url = url.replace(':product_id', product_id);
+                   //alert ("helloooooo");
+           
+                       $.post(url, {_token:'{{ csrf_token() }}', id:id}, function(data){
+                           if(data != 0){
+                               $('#wishlist').html(data);
+                              // alert('Item has been added to wishlist');
+                              toastr.success('Item has been added to wishlist', "success",{iconClass:"toast-custom"});
+                           }
+           
+                       });
+           
+               }
+            </scrript>
+            <script>
                 $(window).on('load', function() {
                     setTimeout(function() {
                         $('#exampleModal').modal('show');

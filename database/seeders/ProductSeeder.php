@@ -41,6 +41,7 @@ class ProductSeeder extends Seeder
                 'to' => $faker->unique()->dateTimeBetween('now', '+3 years'),
                 'created_at' => $faker->unique()->dateTimeBetween('-3 years', 'now'),
                 "admin_id"=>1,
+                "city_id"=>1
 
             ];
 

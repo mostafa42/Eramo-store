@@ -33,7 +33,7 @@ use App\Models\ProductCategory;
 use App\Models\TermsAndConditions;
 use Illuminate\Support\Facades\Route;
 use PhpOffice\PhpSpreadsheet\Settings;
-
+use App\Http\Controllers\Admin\ReviewController;
 
 
 
@@ -135,31 +135,6 @@ Route::prefix('acp')->name('admin.')->group(function () {
                     // our features
                     Route::get('our-features' , 'our_features')->name('our_features');
                     Route::post('edit-our-features/{id}/update', 'edit_our_feature')->name('edit_our_feature');
-
-                    // main section footer settings
-                    Route::get('main-section-footer' , 'main_section_footer_footer')->name('main_section_footer_footer');
-                    Route::post('edit-main-section-footer/{id}/update', 'edit_main_section_footer_footer')->name('edit_main_section_footer_footer');
-
-                    // my account footer section
-                    Route::get('my-account-footer' , 'my_account_footer')->name('my_account_footer') ;
-                    Route::post('edit-my-account-footer/{id}/update', 'edit_my_account_footer')->name('edit_my_account_footer');
-
-                    // why we choose footer section
-                    Route::get('why-we-choose-footer' , 'why_we_choose_footer')->name('why_we_choose_footer') ;
-                    Route::post('edit-why-we-choose-footer/{id}/update', 'edit_why_we_choose_footer')->name('edit_why_we_choose_footer');
-
-                    // store information
-                    Route::get('store-info-footer' , 'store_info_footer')->name('store_info_footer') ;
-                    Route::post('edit-store-info-footer/{id}/update', 'edit_store_info_footer')->name('edit_store_info_footer');
-
-                    // top adv of product
-                    Route::get('top-adv-product-details' , 'top_adv_product_details')->name("top_adv_product_details") ;
-                    Route::post('edit-top-adv-product-details/{id}/update', 'edit_top_adv_product_details')->name('edit_top_adv_product_details');
-
-                    // under adv of product
-                    Route::get('under-adv-product-details' , 'under_adv_product_details')->name("under_adv_product_details") ;
-                    Route::post('edit-under-adv-product-details/{id}/update', 'edit_under_adv_product_details')->name('edit_under_adv_product_details');
-
                 }
             );
             // // user front page
@@ -182,7 +157,20 @@ Route::prefix('acp')->name('admin.')->group(function () {
 
 
 
+            // blogs
 
+            Route::controller(BlogController::class)->prefix('blogs')->name('blogs.')->group(
+                function () {
+                    Route::get('', 'index')->name('index');
+                    Route::get('/create', 'create')->name('create');
+                    Route::post('/store', 'store')->name('store');
+                    Route::get('/{id}/edit', 'edit')->name('edit');
+                    Route::put('/{id}/update', 'update')->name('update');
+                    Route::put('/{id}/restore', 'restore')->name('restore');
+                    Route::delete('/{id}/destroy', 'destroy')->name('destroy');
+                }
+            );
+            // blogs
 
 
 
@@ -208,6 +196,16 @@ Route::prefix('acp')->name('admin.')->group(function () {
                 }
             );
             // counties
+
+              // reviews
+
+              Route::controller(ReviewController::class)->prefix('reviews')->name('reviews.')->group(
+                function () {
+                    Route::get('', 'index')->name('index');
+                    Route::delete('/{id}/destroy', 'destroy')->name('destroy');
+                }
+            );
+            // reviews
 
 
             // cities
