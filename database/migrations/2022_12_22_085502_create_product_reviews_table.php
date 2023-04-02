@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('product_reviews', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
+            // $table->string('title')->nullable();
             // $table->text('review')->nullable();
             // $table->enum('rating', [1, 2, 3, 4, 5]);
             // $table->enum('approved',[1,0])->default(0)->nullable();
